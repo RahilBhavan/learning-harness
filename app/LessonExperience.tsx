@@ -37,7 +37,7 @@ type TakeawayBlock = { type: "takeaway"; title: string; items: string[] };
 type ExerciseBlock = { type: "exercise"; title: string; prompt: string; steps: string[] };
 type Block = ProseBlock | SystemMapBlock | ComparisonBlock | SimulatorBlock | EvidenceBlock | QuizBlock | TakeawayBlock | ExerciseBlock;
 type Section = { id: string; nav: string; number: string; title: string; lead: string; blocks: Block[] };
-type Lesson = {
+export type Lesson = {
   title: string;
   kicker: string;
   summary: string;

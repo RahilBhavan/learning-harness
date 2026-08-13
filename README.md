@@ -1,6 +1,6 @@
 # Learning Harness
 
-A schema-driven prototype for interactive, evidence-led technical lessons. The first lesson demonstrates semantic diagrams, a parameter simulator, comparisons, evidence labeling, misconception checks, progress cues, and a field exercise.
+A repository-backed AI lesson compiler and interactive renderer. A bounded brief and trusted source pack become a claim ledger, learning plan, interaction specifications, renderable lesson, evaluation report, and required human review.
 
 ## Run it
 
@@ -19,9 +19,14 @@ npm run lint
 
 ## Create a lesson
 
-1. Read [`docs/AUTHORING.md`](docs/AUTHORING.md).
-2. Generate a document that conforms to [`content/lesson.schema.json`](content/lesson.schema.json).
-3. Validate it with `npm run validate:content`.
-4. Import it from `app/page.tsx` (multi-lesson routing is intentionally deferred until the lesson grammar has been tested with learners).
+Run the deterministic offline pipeline:
+
+```bash
+npm run lesson:generate -- --brief examples/lesson-brief.json --provider fixture
+```
+
+For an AI-generated lesson, set `OPENAI_API_KEY` and `OPENAI_MODEL`, then use `--provider openai`. The complete artifact contract, resume behavior, source policy, repair loop, and human installation gate are documented in [`docs/GENERATOR.md`](docs/GENERATOR.md).
+
+The renderer contract remains in [`docs/AUTHORING.md`](docs/AUTHORING.md) and [`content/lesson.schema.json`](content/lesson.schema.json).
 
 The reference analysis and design rationale live in [`docs/REFERENCE-TEARDOWN.md`](docs/REFERENCE-TEARDOWN.md).
