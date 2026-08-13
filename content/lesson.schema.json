@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learning-harness.local/schemas/lesson.json",
+  "title": "Learning Harness lesson",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "kicker", "summary", "duration", "level", "objectives", "sections", "sources"],
+  "properties": {
+    "title": { "type": "string", "minLength": 12 },
+    "kicker": { "type": "string", "minLength": 3 },
+    "summary": { "type": "string", "minLength": 80 },
+    "duration": { "type": "string", "pattern": "^[0-9]+ min$" },
+    "level": { "type": "string", "minLength": 3 },
+    "objectives": { "type": "array", "minItems": 2, "maxItems": 4, "items": { "type": "string", "minLength": 12 } },
+    "sections": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "nav", "number", "title", "lead", "blocks"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]+$" },
+          "nav": { "type": "string", "minLength": 3 },
+          "number": { "type": "string", "pattern": "^[0-9]{2}$" },
+          "title": { "type": "string", "minLength": 12 },
+          "lead": { "type": "string", "minLength": 50 },
+          "blocks": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/block" } }
+        }
+      }
+    },
+    "sources": {
+      "type": "array", "minItems": 2,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["label", "url"],
+        "properties": { "label": { "type": "string", "minLength": 8 }, "url": { "type": "string", "format": "uri" } }
+      }
+    }
+  },
+  "$defs": {
+    "block": {
+      "oneOf": [
+        { "$ref": "#/$defs/prose" }, { "$ref": "#/$defs/systemMap" }, { "$ref": "#/$defs/comparison" },
+        { "$ref": "#/$defs/simulator" }, { "$ref": "#/$defs/evidence" }, { "$ref": "#/$defs/quiz" },
+        { "$ref": "#/$defs/takeaway" }, { "$ref": "#/$defs/exercise" }
+      ]
+    },
+    "prose": {
+      "type": "object", "additionalProperties": false, "required": ["type", "title", "body"],
+      "properties": { "type": { "const": "prose" }, "eyebrow": { "type": "string" }, "title": { "type": "string" }, "body": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 80 } } }
+    },
+    "systemMap": {
+      "type": "object", "additionalProperties": false, "required": ["type", "title", "caption", "nodes"],
+      "properties": {
+        "type": { "const": "system-map" }, "title": { "type": "string" }, "caption": { "type": "string", "minLength": 30 },
+        "nodes": { "type": "array", "minItems": 3, "maxItems": 6, "items": { "type": "object", "additionalProperties": false, "required": ["id", "label", "detail", "tone"], "properties": { "id": { "type": "string" }, "label": { "type": "string" }, "detail": { "type": "string", "minLength": 30 }, "tone": { "enum": ["green", "blue", "purple", "orange", "teal"] } } } }
+      }
+    },
+    "comparison": {
+      "type": "object", "additionalProperties": false, "required": ["type", "title", "left", "right"],
+      "properties": { "type": { "const": "comparison" }, "title": { "type": "string" }, "left": { "$ref": "#/$defs/comparisonSide" }, "right": { "$ref": "#/$defs/comparisonSide" } }
+    },
+    "comparisonSide": {
+      "type": "object", "additionalProperties": false, "required": ["label", "score", "points"],
+      "properties": { "label": { "type": "string" }, "score": { "type": "integer", "minimum": 0, "maximum": 100 }, "points": { "type": "array", "minItems": 2, "items": { "type": "string" } } }
+    },
+    "simulator": {
+      "type": "object", "additionalProperties": false, "required": ["type", "title", "prompt", "controls"],
+      "properties": {
+        "type": { "const": "simulator" }, "title": { "type": "string" }, "prompt": { "type": "string", "minLength": 40 },
+        "controls": { "type": "array", "minItems": 2, "maxItems": 5, "items": { "type": "object", "additionalProperties": false, "required": ["id", "label", "help", "min", "max", "initial"], "properties": { "id": { "type": "string" }, "label": { "type": "string" }, "help": { "type": "string", "minLength": 20 }, "min": { "type": "number" }, "max": { "type": "number" }, "initial": { "type": "number" }, "inverse": { "type": "boolean" } } } }
+      }
+    },
+    "evidence": {
+      "type": "object", "additionalProperties": false, "required": ["type", "title", "rows", "note"],
+      "properties": { "type": { "const": "evidence" }, "title": { "type": "string" }, "rows": { "type": "array", "minItems": 2, "items": { "type": "object", "additionalProperties": false, "required": ["stage", "rate", "change"], "properties": { "stage": { "type": "string" }, "rate": { "type": "integer", "minimum": 0, "maximum": 100 }, "change": { "type": "string" } } } }, "note": { "type": "string", "minLength": 50 } }
+    },
+    "quiz": {
+      "type": "object", "additionalProperties": false, "required": ["type", "title", "question", "options"],
+      "properties": { "type": { "const": "quiz" }, "title": { "type": "string" }, "question": { "type": "string", "minLength": 40 }, "options": { "type": "array", "minItems": 3, "maxItems": 5, "items": { "type": "object", "additionalProperties": false, "required": ["label", "correct", "feedback"], "properties": { "label": { "type": "string" }, "correct": { "type": "boolean" }, "feedback": { "type": "string", "minLength": 20 } } } } }
+    },
+    "takeaway": { "type": "object", "additionalProperties": false, "required": ["type", "title", "items"], "properties": { "type": { "const": "takeaway" }, "title": { "type": "string" }, "items": { "type": "array", "minItems": 1, "items": { "type": "string" } } } },
+    "exercise": { "type": "object", "additionalProperties": false, "required": ["type", "title", "prompt", "steps"], "properties": { "type": { "const": "exercise" }, "title": { "type": "string" }, "prompt": { "type": "string", "minLength": 40 }, "steps": { "type": "array", "minItems": 3, "items": { "type": "string" } } } }
+  }
+}
