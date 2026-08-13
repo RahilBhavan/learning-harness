@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Textbook"
+  short_description: "Research topics into cited interactive textbooks"
+  default_prompt: "Use $research-textbook to research a topic and build a cited interactive textbook."

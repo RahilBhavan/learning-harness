@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "benchmarkId": "reference-learning-sites",
+  "generatedAt": "2026-08-13T19:28:25.192Z",
+  "experiments": [
+    {
+      "id": "experiment-learner-continuity",
+      "dimensionId": "learner-continuity",
+      "priority": "high",
+      "status": "proposed",
+      "gap": 3,
+      "productScore": 1,
+      "benchmarkScore": 4,
+      "benchmarkTargetId": "fanout",
+      "hypothesis": "Local-first progress and resume cues will improve multi-session completion without requiring an account.",
+      "implementationDirection": "Add versioned local progress, section mastery, notes export, and explicit resume state before any hosted account system.",
+      "acceptance": [
+        "Progress survives reload without authentication",
+        "Content-version changes do not silently preserve invalid mastery",
+        "Learners can export and delete their local state"
+      ],
+      "rerun": "Re-score learning-harness and fanout on learner-continuity with fresh evidence and at least 2 reviewers."
+    },
+    {
+      "id": "experiment-structure-navigation",
+      "dimensionId": "structure-navigation",
+      "priority": "high",
+      "status": "proposed",
+      "gap": 2,
+      "productScore": 2,
+      "benchmarkScore": 4,
+      "benchmarkTargetId": "walkinglabs",
+      "hypothesis": "A course shell with concept-aware navigation will reduce orientation cost and abandonment.",
+      "implementationDirection": "Compile book and concept graphs into persistent course navigation, search, prerequisites, and next/previous actions.",
+      "acceptance": [
+        "A learner can locate the current concept and prerequisite path",
+        "Search reaches lessons, concepts, and sources",
+        "Every lesson exposes a deterministic next action"
+      ],
+      "rerun": "Re-score learning-harness and walkinglabs on structure-navigation with fresh evidence and at least 2 reviewers."
+    },
+    {
+      "id": "experiment-visual-models",
+      "dimensionId": "visual-models",
+      "priority": "medium",
+      "status": "proposed",
+      "gap": 1,
+      "productScore": 3,
+      "benchmarkScore": 4,
+      "benchmarkTargetId": "lighterra",
+      "hypothesis": "A broader semantic visual grammar will let generated lessons explain more mechanisms without screenshots or arbitrary code.",
+      "implementationDirection": "Add declarative timeline, causal graph, state machine, parameter plot, and annotated-code primitives with static fallbacks.",
+      "acceptance": [
+        "Every visual states the relationship it explains",
+        "All visuals have text equivalents",
+        "Primitive contracts pass narrow-screen and keyboard tests"
+      ],
+      "rerun": "Re-score learning-harness and lighterra on visual-models with fresh evidence and at least 2 reviewers."
+    }
+  ]
+}

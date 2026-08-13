@@ -1,0 +1,444 @@
+{
+  "version": 1,
+  "benchmarkId": "reference-learning-sites",
+  "generatedAt": "2026-08-13T19:28:25.192Z",
+  "status": "ready",
+  "rubric": {
+    "minimum": 0,
+    "maximum": 4
+  },
+  "targets": [
+    {
+      "id": "learning-harness",
+      "label": "Learning Harness",
+      "role": "product",
+      "overall": 3.11,
+      "coverage": 1,
+      "rankable": true,
+      "dimensions": {
+        "structure-navigation": {
+          "score": 2,
+          "reviewers": 1,
+          "observations": [
+            "lh-structure-20260813"
+          ],
+          "spread": 0
+        },
+        "explanation-pacing": {
+          "score": 4,
+          "reviewers": 1,
+          "observations": [
+            "lh-pacing-20260813"
+          ],
+          "spread": 0
+        },
+        "visual-models": {
+          "score": 3,
+          "reviewers": 1,
+          "observations": [
+            "lh-visuals-20260813"
+          ],
+          "spread": 0
+        },
+        "interactive-learning": {
+          "score": 4,
+          "reviewers": 1,
+          "observations": [
+            "lh-interaction-20260813"
+          ],
+          "spread": 0
+        },
+        "active-assessment": {
+          "score": 4,
+          "reviewers": 1,
+          "observations": [
+            "lh-assessment-20260813"
+          ],
+          "spread": 0
+        },
+        "evidence-trust": {
+          "score": 3,
+          "reviewers": 1,
+          "observations": [
+            "lh-trust-20260813"
+          ],
+          "spread": 0
+        },
+        "reproducibility": {
+          "score": 4,
+          "reviewers": 1,
+          "observations": [
+            "lh-repro-20260813"
+          ],
+          "spread": 0
+        },
+        "learner-continuity": {
+          "score": 1,
+          "reviewers": 1,
+          "observations": [
+            "lh-continuity-20260813"
+          ],
+          "spread": 0
+        },
+        "accessibility": {
+          "score": 3,
+          "reviewers": 1,
+          "observations": [
+            "lh-accessibility-20260813"
+          ],
+          "spread": 0
+        }
+      }
+    },
+    {
+      "id": "lighterra",
+      "label": "Modern Microprocessors",
+      "role": "competitor",
+      "overall": 1.88,
+      "coverage": 0.8889,
+      "rankable": true,
+      "dimensions": {
+        "structure-navigation": {
+          "score": 3,
+          "reviewers": 1,
+          "observations": [
+            "lighterra-structure-20260813"
+          ],
+          "spread": 0
+        },
+        "explanation-pacing": {
+          "score": 4,
+          "reviewers": 1,
+          "observations": [
+            "lighterra-pacing-20260813"
+          ],
+          "spread": 0
+        },
+        "visual-models": {
+          "score": 4,
+          "reviewers": 1,
+          "observations": [
+            "lighterra-visuals-20260813"
+          ],
+          "spread": 0
+        },
+        "interactive-learning": {
+          "score": 0,
+          "reviewers": 1,
+          "observations": [
+            "lighterra-interaction-20260813"
+          ],
+          "spread": 0
+        },
+        "active-assessment": {
+          "score": 0,
+          "reviewers": 1,
+          "observations": [
+            "lighterra-assessment-20260813"
+          ],
+          "spread": 0
+        },
+        "evidence-trust": {
+          "score": 3,
+          "reviewers": 1,
+          "observations": [
+            "lighterra-trust-20260813"
+          ],
+          "spread": 0
+        },
+        "reproducibility": {
+          "score": 1,
+          "reviewers": 1,
+          "observations": [
+            "lighterra-repro-20260813"
+          ],
+          "spread": 0
+        },
+        "learner-continuity": {
+          "score": 0,
+          "reviewers": 1,
+          "observations": [
+            "lighterra-continuity-20260813"
+          ],
+          "spread": 0
+        },
+        "accessibility": {
+          "score": null,
+          "reviewers": 0,
+          "observations": [],
+          "spread": 0
+        }
+      }
+    },
+    {
+      "id": "walkinglabs",
+      "label": "Learn Harness Engineering",
+      "role": "competitor",
+      "overall": 2.63,
+      "coverage": 0.8889,
+      "rankable": true,
+      "dimensions": {
+        "structure-navigation": {
+          "score": 4,
+          "reviewers": 1,
+          "observations": [
+            "walking-structure-20260813"
+          ],
+          "spread": 0
+        },
+        "explanation-pacing": {
+          "score": 3,
+          "reviewers": 1,
+          "observations": [
+            "walking-pacing-20260813"
+          ],
+          "spread": 0
+        },
+        "visual-models": {
+          "score": 3,
+          "reviewers": 1,
+          "observations": [
+            "walking-visuals-20260813"
+          ],
+          "spread": 0
+        },
+        "interactive-learning": {
+          "score": 1,
+          "reviewers": 1,
+          "observations": [
+            "walking-interaction-20260813"
+          ],
+          "spread": 0
+        },
+        "active-assessment": {
+          "score": 2,
+          "reviewers": 1,
+          "observations": [
+            "walking-assessment-20260813"
+          ],
+          "spread": 0
+        },
+        "evidence-trust": {
+          "score": 3,
+          "reviewers": 1,
+          "observations": [
+            "walking-trust-20260813"
+          ],
+          "spread": 0
+        },
+        "reproducibility": {
+          "score": 4,
+          "reviewers": 1,
+          "observations": [
+            "walking-repro-20260813"
+          ],
+          "spread": 0
+        },
+        "learner-continuity": {
+          "score": 1,
+          "reviewers": 1,
+          "observations": [
+            "walking-continuity-20260813"
+          ],
+          "spread": 0
+        },
+        "accessibility": {
+          "score": null,
+          "reviewers": 0,
+          "observations": [],
+          "spread": 0
+        }
+      }
+    },
+    {
+      "id": "fanout",
+      "label": "Fanout AI",
+      "role": "competitor",
+      "overall": 2,
+      "coverage": 0.8889,
+      "rankable": true,
+      "dimensions": {
+        "structure-navigation": {
+          "score": 4,
+          "reviewers": 1,
+          "observations": [
+            "fanout-structure-20260813"
+          ],
+          "spread": 0
+        },
+        "explanation-pacing": {
+          "score": 2,
+          "reviewers": 1,
+          "observations": [
+            "fanout-pacing-20260813"
+          ],
+          "spread": 0
+        },
+        "visual-models": {
+          "score": 2,
+          "reviewers": 1,
+          "observations": [
+            "fanout-visuals-20260813"
+          ],
+          "spread": 0
+        },
+        "interactive-learning": {
+          "score": 1,
+          "reviewers": 1,
+          "observations": [
+            "fanout-interaction-20260813"
+          ],
+          "spread": 0
+        },
+        "active-assessment": {
+          "score": 1,
+          "reviewers": 1,
+          "observations": [
+            "fanout-assessment-20260813"
+          ],
+          "spread": 0
+        },
+        "evidence-trust": {
+          "score": 1,
+          "reviewers": 1,
+          "observations": [
+            "fanout-trust-20260813"
+          ],
+          "spread": 0
+        },
+        "reproducibility": {
+          "score": 1,
+          "reviewers": 1,
+          "observations": [
+            "fanout-repro-20260813"
+          ],
+          "spread": 0
+        },
+        "learner-continuity": {
+          "score": 4,
+          "reviewers": 1,
+          "observations": [
+            "fanout-continuity-20260813"
+          ],
+          "spread": 0
+        },
+        "accessibility": {
+          "score": null,
+          "reviewers": 0,
+          "observations": [],
+          "spread": 0
+        }
+      }
+    },
+    {
+      "id": "ml-visualized",
+      "label": "Machine Learning Visualized",
+      "role": "competitor",
+      "overall": 2.63,
+      "coverage": 0.8889,
+      "rankable": true,
+      "dimensions": {
+        "structure-navigation": {
+          "score": 3,
+          "reviewers": 1,
+          "observations": [
+            "mlv-structure-20260813"
+          ],
+          "spread": 0
+        },
+        "explanation-pacing": {
+          "score": 2,
+          "reviewers": 1,
+          "observations": [
+            "mlv-pacing-20260813"
+          ],
+          "spread": 0
+        },
+        "visual-models": {
+          "score": 4,
+          "reviewers": 1,
+          "observations": [
+            "mlv-visuals-20260813"
+          ],
+          "spread": 0
+        },
+        "interactive-learning": {
+          "score": 4,
+          "reviewers": 1,
+          "observations": [
+            "mlv-interaction-20260813"
+          ],
+          "spread": 0
+        },
+        "active-assessment": {
+          "score": 1,
+          "reviewers": 1,
+          "observations": [
+            "mlv-assessment-20260813"
+          ],
+          "spread": 0
+        },
+        "evidence-trust": {
+          "score": 2,
+          "reviewers": 1,
+          "observations": [
+            "mlv-trust-20260813"
+          ],
+          "spread": 0
+        },
+        "reproducibility": {
+          "score": 4,
+          "reviewers": 1,
+          "observations": [
+            "mlv-repro-20260813"
+          ],
+          "spread": 0
+        },
+        "learner-continuity": {
+          "score": 1,
+          "reviewers": 1,
+          "observations": [
+            "mlv-continuity-20260813"
+          ],
+          "spread": 0
+        },
+        "accessibility": {
+          "score": null,
+          "reviewers": 0,
+          "observations": [],
+          "spread": 0
+        }
+      }
+    }
+  ],
+  "issues": [
+    {
+      "severity": "warning",
+      "code": "insufficient-reviewers",
+      "targetId": "lighterra",
+      "dimensionId": "accessibility",
+      "message": "Modern Microprocessors / Accessibility has 0 reviewer(s); 1 required before that dimension can be scored."
+    },
+    {
+      "severity": "warning",
+      "code": "insufficient-reviewers",
+      "targetId": "walkinglabs",
+      "dimensionId": "accessibility",
+      "message": "Learn Harness Engineering / Accessibility has 0 reviewer(s); 1 required before that dimension can be scored."
+    },
+    {
+      "severity": "warning",
+      "code": "insufficient-reviewers",
+      "targetId": "fanout",
+      "dimensionId": "accessibility",
+      "message": "Fanout AI / Accessibility has 0 reviewer(s); 1 required before that dimension can be scored."
+    },
+    {
+      "severity": "warning",
+      "code": "insufficient-reviewers",
+      "targetId": "ml-visualized",
+      "dimensionId": "accessibility",
+      "message": "Machine Learning Visualized / Accessibility has 0 reviewer(s); 1 required before that dimension can be scored."
+    }
+  ]
+}

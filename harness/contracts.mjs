@@ -124,5 +124,6 @@ export const artifactNames = {
   lesson: "05-lesson.json",
   evaluation: "06-evaluation-report.json",
   review: "07-human-review.md",
+  approval: "08-approval.json",
   manifest: "run.json",
 };

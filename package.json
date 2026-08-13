@@ -1,7 +1,19 @@
 {
   "name": "learning-harness",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
+  "license": "UNLICENSED",
+  "files": [
+    "bin/",
+    "harness/",
+    "benchmarks/reference-sites/00-benchmark.json",
+    "content/lesson.schema.json",
+    "docs/GENERATOR.md",
+    "README.md"
+  ],
+  "bin": {
+    "learn": "bin/learn.mjs"
+  },
   "engines": {
     "node": ">=22.13.0"
   },
@@ -9,9 +21,16 @@
     "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext dev",
     "build": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext build",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
-    "test": "npm run validate:content && npm run test:harness && npm run build && node --test tests/rendered-html.test.mjs",
-    "test:harness": "node --test tests/lesson-harness.test.mjs",
+    "test": "npm run validate:content && npm run test:harness && npm run test:research && npm run test:benchmark && npm run build && node --test tests/rendered-html.test.mjs",
+    "test:harness": "node --test tests/lesson-harness.test.mjs tests/cli.test.mjs",
+    "test:research": "node --test tests/research-workflow.test.mjs",
+    "test:benchmark": "node --test tests/benchmark.test.mjs",
+    "learn": "node bin/learn.mjs",
     "lesson:generate": "node scripts/generate-lesson.mjs",
+    "research:start": "node scripts/research.mjs start",
+    "research:import-chatgpt": "node scripts/research.mjs import-chatgpt",
+    "research:audit": "node scripts/research.mjs audit",
+    "research:package": "node scripts/research.mjs package",
     "validate:content": "node scripts/validate-content.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"

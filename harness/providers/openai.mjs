@@ -21,6 +21,7 @@ export class OpenAIProvider {
     if (!apiKey) throw new Error("OPENAI_API_KEY is required for the OpenAI provider.");
     if (!model) throw new Error("OPENAI_MODEL is required; the harness does not silently choose a model.");
     this.apiKey = apiKey;
+    this.id = "openai";
     this.model = model;
     this.baseUrl = baseUrl.replace(/\/$/, "");
     this.fetchImpl = fetchImpl;

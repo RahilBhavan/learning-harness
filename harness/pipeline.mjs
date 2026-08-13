@@ -38,23 +38,26 @@ function assertShape(stage, artifact) {
   if (stage === "evaluation" && Object.values(artifact.scores).some((score) => !Number.isInteger(score) || score < 1 || score > 5)) throw new Error("Evaluation scores must be integers from 1 to 5.");
 }
 
-async function stageArtifact({ runDir, filename, stage, provider, schema, input, force, manifest }) {
+async function stageArtifact({ runDir, filename, stage, provider, schema, input, force, manifest, onEvent }) {
   const file = path.join(runDir, filename);
   if (!force) {
     try {
       const artifact = await readJson(file);
       assertShape(stage, artifact);
       manifest.stages[stage] = { status: "reused", artifact: filename };
+      onEvent({ type: "stage", stage, status: "reused", artifact: filename });
       return artifact;
     } catch (error) {
       if (error.code !== "ENOENT") throw error;
     }
   }
   manifest.stages[stage] = { status: "running", artifact: filename };
+  onEvent({ type: "stage", stage, status: "running", artifact: filename });
   const artifact = await provider.generate({ stage, schema, system: stagePrompts[stage], input });
   assertShape(stage, artifact);
   await writeJson(file, artifact);
   manifest.stages[stage] = { status: "complete", artifact: filename };
+  onEvent({ type: "stage", stage, status: "complete", artifact: filename });
   return artifact;
 }
 
@@ -85,12 +88,13 @@ ${warningLines.length ? warningLines.join("\n") : "None."}
 
 ## Decision
 
-- [ ] Approve for installation
-- [ ] Return for revision
-
 Reviewer:
 
 Date:
+
+Decision notes:
+
+This document is the review worksheet, not authorization. After completing it, run \`learn approve <run-directory> --reviewer "Your Name"\` to create an approval bound to the exact lesson and evaluation.
 `;
 }
 
@@ -102,6 +106,7 @@ export async function runLessonPipeline({
   maxRepairs = 1,
   fetchImpl = fetch,
   clock = () => new Date(),
+  onEvent = () => {},
 }) {
   const briefErrors = validateBrief(brief);
   if (briefErrors.length) throw new Error(`Invalid brief:\n${briefErrors.map((error) => `- ${error}`).join("\n")}`);
@@ -110,7 +115,7 @@ export async function runLessonPipeline({
     runId: brief.id,
     topic: brief.topic,
     status: "running",
-    provider: provider.constructor.name,
+    provider: provider.id ?? provider.constructor.name,
     model: provider.model ?? "unknown",
     promptVersion,
     startedAt: clock().toISOString(),
@@ -138,6 +143,7 @@ export async function runLessonPipeline({
     }
     await writeJson(path.join(runDir, artifactNames.brief), brief);
     manifest.stages.brief = { status: "complete", artifact: artifactNames.brief };
+    onEvent({ type: "stage", stage: "brief", status: "complete", artifact: artifactNames.brief });
 
     let sourcePack;
     const sourceFile = path.join(runDir, artifactNames.sources);
@@ -145,22 +151,25 @@ export async function runLessonPipeline({
       try {
         sourcePack = await readJson(sourceFile);
         manifest.stages.sources = { status: "reused", artifact: artifactNames.sources };
+        onEvent({ type: "stage", stage: "sources", status: "reused", artifact: artifactNames.sources });
       } catch (error) {
         if (error.code !== "ENOENT") throw error;
       }
     }
     if (!sourcePack) {
+      onEvent({ type: "stage", stage: "sources", status: "running", artifact: artifactNames.sources });
       sourcePack = await buildSourcePack(brief, { fetchImpl, clock });
       await writeJson(sourceFile, sourcePack);
       manifest.stages.sources = { status: "complete", artifact: artifactNames.sources };
+      onEvent({ type: "stage", stage: "sources", status: "complete", artifact: artifactNames.sources });
     }
 
-    const claims = await stageArtifact({ runDir, filename: artifactNames.claims, stage: "claims", provider, schema: stageSchemas.claims, input: { brief, sourcePack }, force, manifest });
-    const plan = await stageArtifact({ runDir, filename: artifactNames.plan, stage: "plan", provider, schema: stageSchemas.plan, input: { brief, claims }, force, manifest });
-    const interactions = await stageArtifact({ runDir, filename: artifactNames.interactions, stage: "interactions", provider, schema: stageSchemas.interactions, input: { brief, claims, plan }, force, manifest });
+    const claims = await stageArtifact({ runDir, filename: artifactNames.claims, stage: "claims", provider, schema: stageSchemas.claims, input: { brief, sourcePack }, force, manifest, onEvent });
+    const plan = await stageArtifact({ runDir, filename: artifactNames.plan, stage: "plan", provider, schema: stageSchemas.plan, input: { brief, claims }, force, manifest, onEvent });
+    const interactions = await stageArtifact({ runDir, filename: artifactNames.interactions, stage: "interactions", provider, schema: stageSchemas.interactions, input: { brief, claims, plan }, force, manifest, onEvent });
     const lessonSchema = await loadLessonGenerationSchema();
     const lessonInput = { brief, sourcePack, claims, plan, interactions };
-    let lesson = await stageArtifact({ runDir, filename: artifactNames.lesson, stage: "lesson", provider, schema: lessonSchema, input: lessonInput, force, manifest });
+    let lesson = await stageArtifact({ runDir, filename: artifactNames.lesson, stage: "lesson", provider, schema: lessonSchema, input: lessonInput, force, manifest, onEvent });
 
     let evaluation;
     const evaluationFile = path.join(runDir, artifactNames.evaluation);
@@ -171,12 +180,14 @@ export async function runLessonPipeline({
         if (previousEvaluation.lessonSha256 === jsonHash(lesson)) {
           evaluation = previousEvaluation;
           manifest.stages.evaluation = { status: "reused", artifact: artifactNames.evaluation, repairAttempts: evaluation.repairAttempts };
+          onEvent({ type: "stage", stage: "evaluation", status: "reused", artifact: artifactNames.evaluation });
         }
       } catch (error) {
         if (error.code !== "ENOENT") throw error;
       }
     }
     if (!evaluation) {
+      onEvent({ type: "stage", stage: "evaluation", status: "running", artifact: artifactNames.evaluation });
       let attempts = 0;
       let deterministic;
       let modelReview;
@@ -187,6 +198,7 @@ export async function runLessonPipeline({
         const blocked = deterministic.errors.length > 0 || modelReview.verdict !== "pass" || Object.values(modelReview.scores).some((score) => score < 3);
         if (!blocked || attempts >= maxRepairs) break;
         attempts += 1;
+        onEvent({ type: "repair", attempt: attempts, maxRepairs });
         lesson = await provider.generate({ stage: `repair_${attempts}`, schema: lessonSchema, system: stagePrompts.repair, input: { ...lessonInput, lesson, deterministic, modelReview } });
         assertShape("lesson", lesson);
         await writeJson(path.join(runDir, artifactNames.lesson), lesson);
@@ -201,13 +213,14 @@ export async function runLessonPipeline({
       };
       await writeJson(evaluationFile, evaluation);
       manifest.stages.evaluation = { status: evaluation.publishable ? "complete" : "blocked", artifact: artifactNames.evaluation, repairAttempts: attempts };
+      onEvent({ type: "stage", stage: "evaluation", status: manifest.stages.evaluation.status, artifact: artifactNames.evaluation });
     }
     const reviewFile = path.join(runDir, artifactNames.review);
     let reviewStatus = "pending-human";
     if (!force) {
       try {
-        const existingReview = await readFile(reviewFile, "utf8");
-        reviewStatus = /- \[[xX]\] Approve for installation/.test(existingReview) ? "approved" : "pending-human";
+        await readFile(reviewFile, "utf8");
+        reviewStatus = "pending-human";
       } catch (error) {
         if (error.code !== "ENOENT") throw error;
         await writeFile(reviewFile, reviewMarkdown({ lesson, evaluation }));
@@ -215,16 +228,24 @@ export async function runLessonPipeline({
     } else {
       await writeFile(reviewFile, reviewMarkdown({ lesson, evaluation }));
     }
+    try {
+      const approval = await readJson(path.join(runDir, artifactNames.approval));
+      if (approval.lessonSha256 === evaluation.lessonSha256 && approval.evaluationSha256 === jsonHash(evaluation)) reviewStatus = "approved";
+    } catch (error) {
+      if (error.code !== "ENOENT") throw error;
+    }
     manifest.stages.review = { status: reviewStatus, artifact: artifactNames.review };
     manifest.status = evaluation.publishable ? (reviewStatus === "approved" ? "approved" : "awaiting-human-review") : "blocked";
     manifest.finishedAt = clock().toISOString();
     await writeJson(manifestFile, manifest);
+    onEvent({ type: "complete", status: manifest.status, runDir });
     return { manifest, sourcePack, claims, plan, interactions, lesson, evaluation };
   } catch (error) {
     manifest.status = "failed";
     manifest.finishedAt = clock().toISOString();
     manifest.failure = { name: error.name, message: error.message };
     await writeJson(manifestFile, manifest);
+    onEvent({ type: "failed", error });
     throw error;
   }
 }

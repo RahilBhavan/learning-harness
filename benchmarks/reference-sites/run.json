@@ -1,0 +1,14 @@
+{
+  "id": "reference-learning-sites",
+  "status": "ready",
+  "createdAt": "2026-08-13T20:00:00.000Z",
+  "updatedAt": "2026-08-13T19:28:25.192Z",
+  "runs": [
+    {
+      "generatedAt": "2026-08-13T19:28:25.192Z",
+      "status": "ready",
+      "rankableTargets": 5,
+      "experiments": 3
+    }
+  ]
+}

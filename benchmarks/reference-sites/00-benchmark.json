@@ -1,0 +1,127 @@
+{
+  "version": 1,
+  "id": "reference-learning-sites",
+  "title": "Interactive learning product benchmark",
+  "purpose": "Compare observable teaching and product capabilities, then convert verified Learning Harness gaps into implementation experiments.",
+  "minimumEvidenceCoverage": 0.8,
+  "minimumReviewers": 1,
+  "recommendedReviewers": 2,
+  "maxEvidenceAgeDays": 90,
+  "targets": [
+    { "id": "learning-harness", "label": "Learning Harness", "role": "product", "url": "https://learning-harness-lab.rbhavanzim.chatgpt.site" },
+    { "id": "lighterra", "label": "Modern Microprocessors", "role": "competitor", "url": "https://www.lighterra.com/papers/modernmicroprocessors/" },
+    { "id": "walkinglabs", "label": "Learn Harness Engineering", "role": "competitor", "url": "https://walkinglabs.github.io/learn-harness-engineering/en/" },
+    { "id": "fanout", "label": "Fanout AI", "role": "competitor", "url": "https://fanout.sh/ai/overview" },
+    { "id": "ml-visualized", "label": "Machine Learning Visualized", "role": "competitor", "url": "https://ml-visualized.com/index.html" }
+  ],
+  "dimensions": [
+    {
+      "id": "structure-navigation",
+      "label": "Structure & navigation",
+      "weight": 1,
+      "question": "Can a learner understand scope, location, sequence, and next action?",
+      "anchors": { "0": "No meaningful structure", "2": "Usable headings or sequence", "4": "Clear curriculum, search, progress cues, and next actions" },
+      "implementation": {
+        "hypothesis": "A course shell with concept-aware navigation will reduce orientation cost and abandonment.",
+        "direction": "Compile book and concept graphs into persistent course navigation, search, prerequisites, and next/previous actions.",
+        "acceptance": ["A learner can locate the current concept and prerequisite path", "Search reaches lessons, concepts, and sources", "Every lesson exposes a deterministic next action"]
+      }
+    },
+    {
+      "id": "explanation-pacing",
+      "label": "Explanation & pacing",
+      "weight": 1,
+      "question": "Does the content build a mental model through motivating questions, progressive disclosure, and manageable steps?",
+      "anchors": { "0": "Fragmented or unexplained", "2": "Generally understandable", "4": "Question-driven causal progression with excellent compression" },
+      "implementation": {
+        "hypothesis": "Question-driven causal pacing will improve mental-model formation without increasing lesson length.",
+        "direction": "Add pacing gates for motivating failure, causal spine, representation change, prediction, and transfer; benchmark section density and reading time.",
+        "acceptance": ["Each section answers one explicit learner question", "Terminology follows the causal model", "Human reviewers rate pacing at least strong"]
+      }
+    },
+    {
+      "id": "visual-models",
+      "label": "Visual models",
+      "weight": 1,
+      "question": "Do diagrams and visualizations form an explanatory argument rather than decorate prose?",
+      "anchors": { "0": "No explanatory visuals", "2": "Some useful figures", "4": "Dense semantic visual sequence tied to the explanation" },
+      "implementation": {
+        "hypothesis": "A broader semantic visual grammar will let generated lessons explain more mechanisms without screenshots or arbitrary code.",
+        "direction": "Add declarative timeline, causal graph, state machine, parameter plot, and annotated-code primitives with static fallbacks.",
+        "acceptance": ["Every visual states the relationship it explains", "All visuals have text equivalents", "Primitive contracts pass narrow-screen and keyboard tests"]
+      }
+    },
+    {
+      "id": "interactive-learning",
+      "label": "Interactive learning",
+      "weight": 1,
+      "question": "Can the learner manipulate an explanatory variable and observe a meaningful result?",
+      "anchors": { "0": "Read-only", "2": "Limited or peripheral interaction", "4": "Manipulation is central, inspectable, and reproducible" },
+      "implementation": {
+        "hypothesis": "Prediction-linked manipulation will outperform passive figures on transfer questions.",
+        "direction": "Require simulator hypotheses, expected relationships, prediction-before-change, state coverage, and deterministic outcome functions.",
+        "acceptance": ["Controls change the declared relationship", "Learners predict before reveal", "Static fallback preserves the explanation"]
+      }
+    },
+    {
+      "id": "active-assessment",
+      "label": "Active assessment",
+      "weight": 1,
+      "question": "Does the experience elicit prediction, retrieval, misconception diagnosis, and transfer?",
+      "anchors": { "0": "No learner checks", "2": "Exercises or basic checks", "4": "Aligned prediction, diagnostic feedback, retrieval, and transfer" },
+      "implementation": {
+        "hypothesis": "Objective-aligned diagnostic checks will improve correction and transfer compared with completion-only signals.",
+        "direction": "Add pre-check, mastery, delayed retrieval, and transfer contracts linked to concept IDs and misconceptions.",
+        "acceptance": ["Every core objective has observable learner evidence", "Incorrect options diagnose named misconceptions", "Transfer is assessed outside the worked example"]
+      }
+    },
+    {
+      "id": "evidence-trust",
+      "label": "Evidence & trust",
+      "weight": 1,
+      "question": "Can learners distinguish sourced facts, inference, disagreement, and illustration at the point of use?",
+      "anchors": { "0": "Claims lack provenance", "2": "Sources are available", "4": "Claim-level provenance and epistemic status are inspectable" },
+      "implementation": {
+        "hypothesis": "Inline claim provenance will increase trust calibration and reduce accidental overclaiming.",
+        "direction": "Compile evidence claim IDs and exact locators into inline trust affordances and a source inspector.",
+        "acceptance": ["Material claims resolve to exact evidence locators", "Inference and illustration are visibly distinct", "Citation verification blocks invented or unsupported claims"]
+      }
+    },
+    {
+      "id": "reproducibility",
+      "label": "Reproducibility",
+      "weight": 1,
+      "question": "Can an advanced learner inspect or reproduce the content, visual, or underlying work?",
+      "anchors": { "0": "Opaque output", "2": "Some sources or downloads", "4": "Versioned source artifacts and reproducible execution" },
+      "implementation": {
+        "hypothesis": "Exportable evidence and interaction artifacts will make generated instruction more trustworthy and extensible.",
+        "direction": "Expose versioned lesson JSON, evidence packs, calculation definitions, and optional notebooks without leaking private inputs.",
+        "acceptance": ["Every published lesson identifies its artifact version", "Public evidence packs omit secrets and copyrighted source dumps", "Interactive results can be reproduced from declared inputs"]
+      }
+    },
+    {
+      "id": "learner-continuity",
+      "label": "Learner continuity",
+      "weight": 1,
+      "question": "Does the product preserve progress, context, notes, and a clear return path?",
+      "anchors": { "0": "No continuity", "2": "Basic progress or sequence", "4": "Progress, notes, resume state, and next action work together" },
+      "implementation": {
+        "hypothesis": "Local-first progress and resume cues will improve multi-session completion without requiring an account.",
+        "direction": "Add versioned local progress, section mastery, notes export, and explicit resume state before any hosted account system.",
+        "acceptance": ["Progress survives reload without authentication", "Content-version changes do not silently preserve invalid mastery", "Learners can export and delete their local state"]
+      }
+    },
+    {
+      "id": "accessibility",
+      "label": "Accessibility",
+      "weight": 1,
+      "question": "Can learners use the full experience with keyboard, assistive technology, reduced motion, and narrow screens?",
+      "anchors": { "0": "Critical barriers", "2": "Partial support", "4": "WCAG 2.2 AA evidence plus manual assistive-technology review" },
+      "implementation": {
+        "hypothesis": "Primitive-level accessibility contracts will prevent generated content from reintroducing barriers.",
+        "direction": "Add browser, automated accessibility, keyboard, reduced-motion, zoom, and scheduled screen-reader gates per primitive.",
+        "acceptance": ["Automated WCAG checks pass on every primitive state", "Keyboard and focus behavior pass browser tests", "A manual screen-reader review is recorded for releases"]
+      }
+    }
+  ]
+}
