@@ -43,9 +43,10 @@ Run the dated competitor research loop:
 
 ```bash
 learn benchmark run benchmarks/reference-sites
+learn benchmark research benchmarks/reference-sites
 ```
 
-The loop excludes missing or stale evidence, reports score coverage, surfaces reviewer disagreement, and turns verified gaps into implementation experiments. See [`docs/BENCHMARK.md`](docs/BENCHMARK.md) and the current [`benchmark report`](benchmarks/reference-sites/04-report.md).
+The loop excludes missing or stale evidence, reports score coverage, surfaces reviewer disagreement, and turns verified gaps into implementation experiments. The research gate then compares implementation candidates, preserves the benchmark acceptance criteria, and emits a conditional real-data spike plan. See [`docs/BENCHMARK.md`](docs/BENCHMARK.md), the current [`benchmark report`](benchmarks/reference-sites/04-report.md), and the [`implementation plan`](benchmarks/reference-sites/06-implementation-plan.md).
 
 ## Research a textbook without an API
 

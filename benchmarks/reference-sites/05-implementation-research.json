@@ -1,0 +1,276 @@
+{
+  "version": 1,
+  "benchmarkId": "reference-learning-sites",
+  "studies": [
+    {
+      "experimentId": "experiment-learner-continuity",
+      "owner": "Learning Harness maintainers",
+      "constraints": [
+        "Remain useful without an account or network connection",
+        "Version persisted state against the lesson content version",
+        "Provide explicit export and deletion controls",
+        "Do not store credentials, source secrets, or provider responses"
+      ],
+      "candidates": [
+        {
+          "id": "web-storage",
+          "name": "Web Storage",
+          "summary": "Persist a small JSON snapshot in localStorage with no added dependency; synchronous I/O and string-only values constrain growth.",
+          "scores": {
+            "fit": 3,
+            "delivery": 5,
+            "maintainability": 4,
+            "accessibility": 4,
+            "portability": 5
+          },
+          "evidence": [
+            {
+              "url": "https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API",
+              "locator": "Concepts and usage: synchronous localStorage/sessionStorage operations and storage limits",
+              "accessedAt": "2026-08-13T19:40:00.000Z"
+            }
+          ]
+        },
+        {
+          "id": "native-indexeddb",
+          "name": "Native IndexedDB",
+          "summary": "Use the browser's asynchronous transactional structured-data store directly, accepting a larger application-owned adapter.",
+          "scores": {
+            "fit": 5,
+            "delivery": 2,
+            "maintainability": 3,
+            "accessibility": 4,
+            "portability": 5
+          },
+          "evidence": [
+            {
+              "url": "https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API",
+              "locator": "IndexedDB description: significant structured data, indexes, transactions, and asynchronous operations",
+              "accessedAt": "2026-08-13T19:40:00.000Z"
+            }
+          ]
+        },
+        {
+          "id": "idb-wrapper",
+          "name": "idb",
+          "summary": "Use the small promise-based idb wrapper while retaining IndexedDB's stores, transactions, and versioned upgrade path.",
+          "scores": {
+            "fit": 5,
+            "delivery": 4,
+            "maintainability": 4,
+            "accessibility": 4,
+            "portability": 4
+          },
+          "evidence": [
+            {
+              "url": "https://github.com/jakearchibald/idb",
+              "locator": "README: promise-based IndexedDB API, browser support, upgrade callback, and transaction completion",
+              "accessedAt": "2026-08-13T19:40:00.000Z"
+            }
+          ]
+        }
+      ],
+      "recommendation": {
+        "candidateId": "idb-wrapper",
+        "confidence": "conditional",
+        "rationale": "It preserves a transactional, versioned local-first data model while reducing adapter complexity. Dependency adoption remains blocked until the spike measures bundle cost, migration behavior, and recovery from invalid state."
+      },
+      "spike": {
+        "status": "planned",
+        "question": "Can idb persist versioned progress, mastery, resume position, and learner notes without corrupting state across real lesson revisions?",
+        "steps": [
+          "Use an existing generated lesson artifact and its real content version; do not create demo learner data",
+          "Implement the same typed persistence adapter against native IndexedDB and idb on isolated branches",
+          "Exercise reload, upgrade, downgrade rejection, concurrent-tab writes, export, deletion, and invalid-record recovery",
+          "Record compressed bundle delta, migration duration, error behavior, and browser results"
+        ],
+        "passCriteria": [
+          "Progress survives reload without authentication",
+          "Content-version changes do not silently preserve invalid mastery",
+          "Learners can export and delete their local state",
+          "All measurements are captured from the current application and real generated lesson artifacts"
+        ],
+        "results": []
+      }
+    },
+    {
+      "experimentId": "experiment-structure-navigation",
+      "owner": "Learning Harness maintainers",
+      "constraints": [
+        "Index only source-grounded fields emitted by the compiler",
+        "Keep navigation deterministic and usable without a hosted search service",
+        "Support keyboard operation and meaningful empty-result states",
+        "Do not expose private research artifacts in the browser index"
+      ],
+      "candidates": [
+        {
+          "id": "compiler-index",
+          "name": "Compiler-emitted concept index",
+          "summary": "Emit a compact lesson, concept, prerequisite, and source index from the existing validated content graph and search it in-browser.",
+          "scores": {
+            "fit": 5,
+            "delivery": 3,
+            "maintainability": 4,
+            "accessibility": 5,
+            "portability": 5
+          },
+          "evidence": [
+            {
+              "path": "harness/pipeline.mjs",
+              "locator": "runLessonPipeline checkpoints validated claims, plan, interactions, lesson, and evaluation artifacts",
+              "accessedAt": "2026-08-13T19:40:00.000Z"
+            }
+          ]
+        },
+        {
+          "id": "pagefind",
+          "name": "Pagefind",
+          "summary": "Build a static search bundle after rendering, or use the Node API for non-static content, gaining a mature index at the cost of a post-build integration.",
+          "scores": {
+            "fit": 4,
+            "delivery": 4,
+            "maintainability": 5,
+            "accessibility": 4,
+            "portability": 5
+          },
+          "evidence": [
+            {
+              "url": "https://pagefind.app/docs/",
+              "locator": "Overview: indexes generated static HTML and emits a static search bundle",
+              "accessedAt": "2026-08-13T19:40:00.000Z"
+            },
+            {
+              "url": "https://pagefind.app/docs/running-pagefind/",
+              "locator": "Node API: programmatic indexing including non-static or non-HTML content",
+              "accessedAt": "2026-08-13T19:40:00.000Z"
+            }
+          ]
+        }
+      ],
+      "recommendation": {
+        "candidateId": "compiler-index",
+        "confidence": "conditional",
+        "rationale": "The content graph contains concepts and prerequisites that rendered-page search cannot infer reliably. Start with the compiler-owned semantic index, then rerun Pagefind at a larger corpus size if hand-owned ranking or payload size becomes the limiting factor."
+      },
+      "spike": {
+        "status": "planned",
+        "question": "Can a compiler-emitted index make every currently generated lesson, concept, prerequisite, and cited source reachable with deterministic keyboard navigation?",
+        "steps": [
+          "Build the index only from existing validated lesson and research artifacts",
+          "Add persistent course position, prerequisite breadcrumbs, next and previous actions, and search result explanations",
+          "Measure index size, query latency, zero-result behavior, keyboard flow, and source-field leakage",
+          "Run the same real corpus through Pagefind's Node API and record the comparative measurements"
+        ],
+        "passCriteria": [
+          "A learner can locate the current concept and prerequisite path",
+          "Search reaches lessons, concepts, and sources",
+          "Every lesson exposes a deterministic next action",
+          "The browser index contains no provider prompts, private notes, or unapproved research artifacts"
+        ],
+        "results": []
+      }
+    },
+    {
+      "experimentId": "experiment-visual-models",
+      "owner": "Learning Harness maintainers",
+      "constraints": [
+        "Every visual must declare the relationship it teaches",
+        "Every visual needs a complete text equivalent and static fallback",
+        "Generated content may select only allowlisted declarative primitives",
+        "Quantitative scales and topology diagrams require different semantics"
+      ],
+      "candidates": [
+        {
+          "id": "custom-svg-primitives",
+          "name": "Custom semantic SVG primitives",
+          "summary": "Extend the existing allowlisted schema and React renderer with purpose-built timelines, causal graphs, state machines, parameter plots, and annotated code.",
+          "scores": {
+            "fit": 5,
+            "delivery": 2,
+            "maintainability": 3,
+            "accessibility": 5,
+            "portability": 5
+          },
+          "evidence": [
+            {
+              "path": "content/lesson.schema.json",
+              "locator": "Allowlisted declarative lesson block and interaction contracts",
+              "accessedAt": "2026-08-13T19:40:00.000Z"
+            }
+          ]
+        },
+        {
+          "id": "vega-lite",
+          "name": "Vega-Lite",
+          "summary": "Use a declarative JSON grammar that compiles to Vega for interactive quantitative and multi-view plots.",
+          "scores": {
+            "fit": 3,
+            "delivery": 4,
+            "maintainability": 5,
+            "accessibility": 4,
+            "portability": 5
+          },
+          "evidence": [
+            {
+              "url": "https://vega.github.io/vega-lite/docs/",
+              "locator": "Overview: high-level JSON grammar for interactive multi-view visualizations that compiles to Vega",
+              "accessedAt": "2026-08-13T19:40:00.000Z"
+            },
+            {
+              "url": "https://vis.mit.edu/pubs/vega-lite.pdf",
+              "locator": "Vega-Lite paper: declarative grammar and compilation model",
+              "accessedAt": "2026-08-13T19:40:00.000Z"
+            }
+          ]
+        },
+        {
+          "id": "hybrid-visual-grammar",
+          "name": "Hybrid semantic visual grammar",
+          "summary": "Keep topology and mechanism diagrams in application-owned accessible primitives while restricting Vega-Lite to quantitative plots.",
+          "scores": {
+            "fit": 5,
+            "delivery": 3,
+            "maintainability": 4,
+            "accessibility": 5,
+            "portability": 4
+          },
+          "evidence": [
+            {
+              "path": "app/LessonExperience.tsx",
+              "locator": "Existing application-owned declarative visual renderer and text fallback behavior",
+              "accessedAt": "2026-08-13T19:40:00.000Z"
+            },
+            {
+              "url": "https://vega.github.io/vega-lite/docs/",
+              "locator": "Vega-Lite declarative quantitative visualization grammar",
+              "accessedAt": "2026-08-13T19:40:00.000Z"
+            }
+          ]
+        }
+      ],
+      "recommendation": {
+        "candidateId": "hybrid-visual-grammar",
+        "confidence": "conditional",
+        "rationale": "One generic diagram library would blur the distinction between quantitative encodings and mechanism topology. The hybrid keeps the generated contract semantic while avoiding custom scale and plotting machinery where Vega-Lite is strongest."
+      },
+      "spike": {
+        "status": "planned",
+        "question": "Can one real mechanism be expressed as an accessible custom state or causal diagram and one real parameter relationship as Vega-Lite without arbitrary generated code?",
+        "steps": [
+          "Select two relationships already supported by claims in the current research package",
+          "Render the topology relationship with a new allowlisted semantic primitive and the quantitative relationship with a restricted Vega-Lite spec",
+          "Verify schema rejection, static fallback, text equivalence, keyboard behavior, narrow layout, and reduced motion",
+          "Measure compressed bundle delta and renderer execution time before recommending a dependency"
+        ],
+        "passCriteria": [
+          "Every visual states the relationship it explains",
+          "All visuals have text equivalents",
+          "Primitive contracts pass narrow-screen and keyboard tests",
+          "Generated lesson JSON cannot inject code, event handlers, remote data, or an unapproved Vega transform"
+        ],
+        "results": []
+      }
+    }
+  ],
+  "auditedAt": "2026-08-13T19:42:46.559Z"
+}

@@ -5,7 +5,7 @@ import process from "node:process";
 import readline from "node:readline/promises";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { runLessonPipeline } from "../harness/pipeline.mjs";
-import { createBenchmarkJob, inspectBenchmarkJob, runBenchmarkLoop } from "../harness/benchmark.mjs";
+import { auditImplementationResearch, createBenchmarkJob, inspectBenchmarkJob, runBenchmarkLoop } from "../harness/benchmark.mjs";
 import { AnthropicProvider } from "../harness/providers/anthropic.mjs";
 import { OpenAIProvider } from "../harness/providers/openai.mjs";
 import { approveRun, inspectRun, installRun } from "../harness/run-store.mjs";
@@ -44,6 +44,7 @@ Usage:
   learn install <run-directory> --to <lesson.json> [--force]
   learn benchmark init --job-dir <directory> [--definition <file>]
   learn benchmark run <job-directory> [--json]
+  learn benchmark research <job-directory> [--json]
   learn benchmark status <job-directory> [--json]
   learn doctor [--provider openai|anthropic] [--json]
 
@@ -194,7 +195,7 @@ async function install(args, output) {
 async function benchmark(args, output) {
   const subcommand = args.positionals.shift();
   if (!subcommand || subcommand === "help") {
-    console.log(`Usage:\n  learn benchmark init --job-dir <directory> [--definition <file>]\n  learn benchmark run <job-directory> [--json]\n  learn benchmark status <job-directory> [--json]\n\nThe run command audits dated evidence, excludes stale or unsupported scores, writes the scorecard and report, and proposes implementation experiments from verified product gaps.`);
+    console.log(`Usage:\n  learn benchmark init --job-dir <directory> [--definition <file>]\n  learn benchmark run <job-directory> [--json]\n  learn benchmark research <job-directory> [--json]\n  learn benchmark status <job-directory> [--json]\n\nThe run command audits competitor evidence and proposes experiments. The research command audits implementation candidates, evidence, constraints, recommendations, and real-data spikes.`);
     return;
   }
   if (subcommand === "init") {
@@ -220,12 +221,24 @@ async function benchmark(args, output) {
     if (summary.status !== "ready") process.exitCode = 2;
     return;
   }
+  if (subcommand === "research") {
+    const result = await auditImplementationResearch({ jobDir });
+    const summary = { status: result.audit.status, jobDir, decisions: result.audit.decisions.length, issues: result.audit.issues.length, plan: path.join(jobDir, "06-implementation-plan.md") };
+    if (args.options.json) console.log(JSON.stringify(summary));
+    else {
+      const writer = summary.status === "ready-for-spike" ? output.success.bind(output) : output.warn.bind(output);
+      writer(`Implementation research ${summary.status}: ${summary.decisions} decision(s), ${summary.issues} issue(s).`);
+      output.info(`Plan: ${summary.plan}`);
+    }
+    if (summary.status !== "ready-for-spike") process.exitCode = 2;
+    return;
+  }
   if (subcommand === "status") {
     const state = await inspectBenchmarkJob(jobDir);
-    const summary = { jobDir, status: state.run.status, updatedAt: state.run.updatedAt, runs: state.run.runs.length, targets: state.scorecard?.targets ?? [] };
+    const summary = { jobDir, status: state.run.status, researchStatus: state.run.researchStatus ?? "not-run", updatedAt: state.run.updatedAt, runs: state.run.runs.length, researchRuns: state.run.researchRuns?.length ?? 0, targets: state.scorecard?.targets ?? [] };
     if (args.options.json) console.log(JSON.stringify(summary, null, 2));
     else {
-      console.log(`${state.run.id}\n${summary.status} · ${summary.runs} benchmark run(s)`);
+      console.log(`${state.run.id}\n${summary.status} · ${summary.runs} benchmark run(s)\n${summary.researchStatus} · ${summary.researchRuns} implementation research run(s)`);
       for (const target of summary.targets) console.log(`  ${target.rankable ? target.overall.toFixed(2) : "n/a"}  ${Math.round(target.coverage * 100)}%  ${target.label}`);
     }
     return;

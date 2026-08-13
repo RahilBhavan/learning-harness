@@ -6,6 +6,7 @@ The benchmark is a dated evidence system, not a permanent leaderboard. It compar
 
 ```bash
 learn benchmark run benchmarks/reference-sites
+learn benchmark research benchmarks/reference-sites
 learn benchmark status benchmarks/reference-sites
 ```
 
@@ -40,6 +41,14 @@ Then run:
 learn benchmark run benchmarks/2026-q4
 ```
 
+For every generated experiment, populate `05-implementation-research.json` with at least two alternatives, fresh primary-source or repository evidence, explicit constraints, a conditional recommendation, and a real-data spike. Audit it with:
+
+```bash
+learn benchmark research benchmarks/2026-q4
+```
+
+The command will not mark the research ready when an experiment is missing, evidence is stale, candidate scores are incomplete, the recommendation is not conditional, or the spike drops a benchmark acceptance check.
+
 The loop writes:
 
 | Artifact | Purpose |
@@ -49,6 +58,8 @@ The loop writes:
 | `02-scorecard.json` | Coverage-aware product and competitor scores plus integrity issues |
 | `03-experiments.json` | Verified product gaps translated into implementation work |
 | `04-report.md` | Human-readable comparison and acceptance checklist |
+| `05-implementation-research.json` | Alternatives, fresh technical evidence, constraints, conditional decisions, and spikes |
+| `06-implementation-plan.md` | Ranked execution plan with the competitor rerun attached to every gap |
 | `run.json` | Durable benchmark history |
 
 ## Integrity rules
@@ -60,6 +71,8 @@ The loop writes:
 - Reviewer differences of two or more points require adjudication.
 - Scores must describe the sampled surface. Do not generalize a single lesson to an entire product without broader evidence.
 - Product work is proposed only when Learning Harness trails an observed competitor score.
+- Every proposed experiment must compare at least two implementation candidates on fit, delivery, maintainability, accessibility, and portability.
+- Recommendations remain conditional until a spike uses current application data and records its measurements.
 - An experiment is not complete until its acceptance checks pass and the affected competitors are rescored with fresh evidence.
 
 ## Current evidence-backed priorities

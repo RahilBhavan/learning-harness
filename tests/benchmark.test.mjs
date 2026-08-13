@@ -3,16 +3,18 @@ import { mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { benchmarkArtifactNames, createBenchmarkJob, runBenchmarkLoop } from "../harness/benchmark.mjs";
+import { auditImplementationResearch, benchmarkArtifactNames, createBenchmarkJob, runBenchmarkLoop } from "../harness/benchmark.mjs";
 
 const definition = JSON.parse(await readFile(new URL("../benchmarks/reference-sites/00-benchmark.json", import.meta.url), "utf8"));
 const observations = JSON.parse(await readFile(new URL("../benchmarks/reference-sites/01-observations.json", import.meta.url), "utf8"));
+const implementationResearch = JSON.parse(await readFile(new URL("../benchmarks/reference-sites/05-implementation-research.json", import.meta.url), "utf8"));
 const capturedClock = () => new Date("2026-08-13T21:00:00.000Z");
 
 async function seededJob(prefix = "learning-benchmark-") {
   const jobDir = await mkdtemp(path.join(tmpdir(), prefix));
   await createBenchmarkJob({ jobDir, definition, clock: capturedClock });
   await writeFile(path.join(jobDir, benchmarkArtifactNames.observations), `${JSON.stringify(observations, null, 2)}\n`);
+  await writeFile(path.join(jobDir, benchmarkArtifactNames.implementationResearch), `${JSON.stringify(implementationResearch, null, 2)}\n`);
   return jobDir;
 }
 
@@ -43,4 +45,26 @@ test("new benchmark jobs begin unknown and cannot produce a misleading ranking",
   assert.equal(result.scorecard.status, "incomplete");
   assert.ok(result.scorecard.targets.every((target) => !target.rankable && target.overall === null));
   assert.equal(result.experiments.experiments.length, 0);
+});
+
+test("implementation research ranks alternatives and produces a spike plan for every verified gap", async () => {
+  const jobDir = await seededJob("learning-benchmark-research-");
+  await runBenchmarkLoop({ jobDir, clock: capturedClock });
+  const result = await auditImplementationResearch({ jobDir, clock: capturedClock });
+  assert.equal(result.audit.status, "ready-for-spike");
+  assert.equal(result.audit.decisions.length, 3);
+  assert.ok(result.audit.decisions.every((decision) => decision.candidates.length >= 2 && decision.candidateId));
+  assert.match(result.plan, /Real-data spike/);
+  assert.match(result.plan, /Competitor rerun/);
+});
+
+test("implementation research remains incomplete when a candidate lacks fresh evidence", async () => {
+  const jobDir = await seededJob("learning-benchmark-invalid-research-");
+  await runBenchmarkLoop({ jobDir, clock: capturedClock });
+  const invalid = structuredClone(implementationResearch);
+  invalid.studies[0].candidates[0].evidence[0].accessedAt = "2025-01-01T00:00:00.000Z";
+  await writeFile(path.join(jobDir, benchmarkArtifactNames.implementationResearch), `${JSON.stringify(invalid, null, 2)}\n`);
+  const result = await auditImplementationResearch({ jobDir, clock: capturedClock });
+  assert.equal(result.audit.status, "incomplete");
+  assert.ok(result.audit.issues.some((issue) => issue.code === "invalid-study" && issue.message.includes("fresh accessedAt")));
 });

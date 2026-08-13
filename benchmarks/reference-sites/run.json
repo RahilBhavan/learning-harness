@@ -2,13 +2,26 @@
   "id": "reference-learning-sites",
   "status": "ready",
   "createdAt": "2026-08-13T20:00:00.000Z",
-  "updatedAt": "2026-08-13T19:28:25.192Z",
+  "updatedAt": "2026-08-13T19:42:46.559Z",
   "runs": [
     {
       "generatedAt": "2026-08-13T19:28:25.192Z",
       "status": "ready",
       "rankableTargets": 5,
       "experiments": 3
+    }
+  ],
+  "researchStatus": "ready-for-spike",
+  "researchRuns": [
+    {
+      "generatedAt": "2026-08-13T19:42:18.590Z",
+      "status": "incomplete",
+      "decisions": 3
+    },
+    {
+      "generatedAt": "2026-08-13T19:42:46.559Z",
+      "status": "ready-for-spike",
+      "decisions": 3
     }
   ]
 }
