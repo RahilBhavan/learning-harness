@@ -2,7 +2,7 @@
   "name": "learning-harness",
   "version": "0.2.0",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "files": [
     "bin/",
     "harness/",
