@@ -1,6 +1,8 @@
 # Learning Harness: a CLI that compiles a brief and a source pack into a claim-ledgered interactive lesson
 
-[![CI](https://github.com/RahilBhavan/learning-harness/actions/workflows/ci.yml/badge.svg)](https://github.com/RahilBhavan/learning-harness/actions/workflows/ci.yml)
+[![CI](https://github.com/RahilBhavan/learning-harness/actions/workflows/ci.yml/badge.svg)](https://github.com/RahilBhavan/learning-harness/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+![Terminal rendering of the offline demo run: seven pipeline stages complete, the automated quality gate passes, and the run waits for human approval. A scripted stand-in produced it, not a model.](docs/img/offline-demo.svg)
 
 Learning Harness takes a lesson brief and a set of trusted sources. It calls an OpenAI or Anthropic model through a staged pipeline and writes every stage to disk as a JSON artifact. The output is a claim ledger, a learning plan, interaction specifications, a renderable lesson and an evaluation report. A person must approve the lesson before it can be installed. A React app renders the installed lesson.
 
@@ -32,7 +34,7 @@ npm run lint
 npm run dev        # local lesson viewer
 ```
 
-Observed on 2026-10-24 with Node 22.23.4: `npm test` ran 23 tests (10 harness and CLI, 5 research, 5 benchmark, 3 rendered HTML), all passing, and `npm run lint` was clean. CI runs the same steps on Node 22.
+Observed on 2026-10-24 with Node 22.23.4 (also 26.8.1): `npm test` ran 23 tests (10 harness and CLI, 5 research, 5 benchmark, 3 rendered HTML), all passing, and `npm run lint` was clean. CI runs the same steps on Node 22.
 
 If `npm ci` fails inside `sharp` on a machine that has a system libvips installed, run it with `SHARP_IGNORE_GLOBAL_LIBVIPS=1`. CI sets this variable. `sharp` is a dependency of `miniflare`, not of this code.
 
@@ -68,7 +70,8 @@ node bin/learn.mjs status examples/offline-demo
 - `content/`: lesson JSON schema and the reference lesson.
 - `examples/`: sample brief and the offline demo run.
 - `benchmarks/`: dated competitor benchmark data and reports.
-- `scripts/`: content validation, offline demo, research and generation entry points.
+- `scripts/`: content validation, offline demo, hero renderer (`render-hero.mjs`), research and generation entry points.
+- `.agents/`, `.openai/`: agent workflow files (a research skill) and hosting config for the author's tooling; not needed to use the CLI.
 - `tests/`: `node --test` suites.
 
 ## Documentation
@@ -90,6 +93,8 @@ node bin/learn.mjs status examples/offline-demo
 - The claim ledger records which source IDs a claim cites. It does not verify that the source text supports the claim, and it has no quote locators.
 - Sources are curated by the brief. The tool does not search the web, and it rejects PDFs and other binary sources unless the brief supplies an excerpt.
 - Approval is a local hash check, not an access-control system.
+- `npm audit` reports 6 advisories (3 high: `image-size`, `undici` through build and dev tooling). Fixing them needs `vinext` 1.3.0, which breaks the Node-based rendered-HTML tests, so `vinext` stays at 1.0.0-beta.2.
+- `npx tsc --noEmit` reports two type errors (a JSON-widening mismatch in `app/page.tsx` and missing Workers types in `worker/index.ts`). Type checking is not part of CI.
 
 ## License
 
