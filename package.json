@@ -31,6 +31,7 @@
     "research:import-chatgpt": "node scripts/research.mjs import-chatgpt",
     "research:audit": "node scripts/research.mjs audit",
     "research:package": "node scripts/research.mjs package",
+    "demo:offline": "node scripts/offline-demo.mjs",
     "validate:content": "node scripts/validate-content.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"

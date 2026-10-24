@@ -1,0 +1,22 @@
+{
+  "evaluatedAt": "2026-08-13T12:00:00.000Z",
+  "lessonSha256": "a009d7e21951b387daddac0711d6a0a007327c67099a84ad7f3212a1fdeef943",
+  "repairAttempts": 0,
+  "publishable": true,
+  "deterministic": {
+    "errors": [],
+    "warnings": []
+  },
+  "modelReview": {
+    "verdict": "pass",
+    "scores": {
+      "factualGrounding": 5,
+      "objectiveAlignment": 5,
+      "interactionIntegrity": 5,
+      "misconceptionQuality": 4,
+      "transferQuality": 5
+    },
+    "issues": [],
+    "summary": "All contract gates pass."
+  }
+}

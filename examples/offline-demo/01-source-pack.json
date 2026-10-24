@@ -1,0 +1,24 @@
+{
+  "capturedAt": "2026-08-13T12:00:00.000Z",
+  "sourcePolicy": "Use the supplied first-party engineering sources. Treat the excerpts as research notes, preserve their URLs, and mark any broader synthesis as inference.",
+  "sources": [
+    {
+      "id": "openai-harness-engineering",
+      "label": "OpenAI · Harness engineering in an agent-first world",
+      "url": "https://openai.com/index/harness-engineering/",
+      "text": "OpenAI describes harness engineering as designing environments, expressing intent, and building feedback loops around capable coding agents. Repository documentation, executable checks, observability, and enforced architectural constraints help agents work reliably at scale. The repository becomes the durable system of record rather than relying on context available only in a single conversation.",
+      "truncated": false,
+      "captureMethod": "provided-excerpt",
+      "sha256": "3920c744b16da3bfbd1ca0c6df7284952d00086c5c12c8ff08509ecbff4fb5b9"
+    },
+    {
+      "id": "anthropic-long-running-agents",
+      "label": "Anthropic · Effective harnesses for long-running agents",
+      "url": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "text": "Anthropic reports that long-running agent work benefits from an initialization phase, persistent progress artifacts, explicit verification, and clean handoffs between sessions. The agent should leave the environment in a state from which another session can understand completed work, remaining work, and the next reliable action without reconstructing everything from conversational history.",
+      "truncated": false,
+      "captureMethod": "provided-excerpt",
+      "sha256": "eaebd5882c896bab0b8806d91c70481132dbb30315383029fedb046e9df55def"
+    }
+  ]
+}

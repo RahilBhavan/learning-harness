@@ -1,0 +1,45 @@
+{
+  "runId": "reliable-agent-feedback",
+  "topic": "How feedback loops make AI coding agents reliable",
+  "status": "awaiting-human-review",
+  "provider": "test",
+  "model": "contract-test",
+  "promptVersion": "2026-08-13.1",
+  "startedAt": "2026-08-13T12:00:00.000Z",
+  "stages": {
+    "brief": {
+      "status": "complete",
+      "artifact": "00-brief.json"
+    },
+    "sources": {
+      "status": "complete",
+      "artifact": "01-source-pack.json"
+    },
+    "claims": {
+      "status": "complete",
+      "artifact": "02-claim-ledger.json"
+    },
+    "plan": {
+      "status": "complete",
+      "artifact": "03-learning-plan.json"
+    },
+    "interactions": {
+      "status": "complete",
+      "artifact": "04-interaction-specs.json"
+    },
+    "lesson": {
+      "status": "complete",
+      "artifact": "05-lesson.json"
+    },
+    "evaluation": {
+      "status": "complete",
+      "artifact": "06-evaluation-report.json",
+      "repairAttempts": 0
+    },
+    "review": {
+      "status": "pending-human",
+      "artifact": "07-human-review.md"
+    }
+  },
+  "finishedAt": "2026-08-13T12:00:00.000Z"
+}

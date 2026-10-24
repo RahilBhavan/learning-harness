@@ -1,0 +1,24 @@
+{
+  "topic": "How feedback loops make AI coding agents reliable",
+  "claims": [
+    {
+      "id": "claim-1",
+      "text": "Reliable agent work uses observable feedback.",
+      "status": "supported",
+      "sourceIds": [
+        "openai-harness-engineering"
+      ],
+      "rationale": "Directly supported by the first source."
+    },
+    {
+      "id": "claim-2",
+      "text": "Durable state supports recovery across sessions.",
+      "status": "supported",
+      "sourceIds": [
+        "anthropic-long-running-agents"
+      ],
+      "rationale": "Directly supported by the second source."
+    }
+  ],
+  "gaps": []
+}

@@ -1,0 +1,31 @@
+{
+  "id": "reliable-agent-feedback",
+  "topic": "How feedback loops make AI coding agents reliable",
+  "audience": "software engineers who use coding agents but have not designed an agent harness",
+  "durationMinutes": 18,
+  "level": "Foundation",
+  "goals": [
+    "Distinguish an open-loop prompt from a closed-loop agent harness",
+    "Diagnose whether a failure comes from missing intent, observation, state, or recovery",
+    "Add one executable feedback gate to an existing repository"
+  ],
+  "exclusions": [
+    "Model training and fine-tuning",
+    "Vendor-specific benchmark claims"
+  ],
+  "sourcePolicy": "Use the supplied first-party engineering sources. Treat the excerpts as research notes, preserve their URLs, and mark any broader synthesis as inference.",
+  "sources": [
+    {
+      "id": "openai-harness-engineering",
+      "label": "OpenAI · Harness engineering in an agent-first world",
+      "url": "https://openai.com/index/harness-engineering/",
+      "excerpt": "OpenAI describes harness engineering as designing environments, expressing intent, and building feedback loops around capable coding agents. Repository documentation, executable checks, observability, and enforced architectural constraints help agents work reliably at scale. The repository becomes the durable system of record rather than relying on context available only in a single conversation."
+    },
+    {
+      "id": "anthropic-long-running-agents",
+      "label": "Anthropic · Effective harnesses for long-running agents",
+      "url": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "excerpt": "Anthropic reports that long-running agent work benefits from an initialization phase, persistent progress artifacts, explicit verification, and clean handoffs between sessions. The agent should leave the environment in a state from which another session can understand completed work, remaining work, and the next reliable action without reconstructing everything from conversational history."
+    }
+  ]
+}

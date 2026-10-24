@@ -1,0 +1,36 @@
+{
+  "interactions": [
+    {
+      "id": "map",
+      "type": "system-map",
+      "title": "Control loop",
+      "learningPurpose": "Expose the mechanism.",
+      "variables": [],
+      "expectedObservation": "Feedback changes the next action.",
+      "evidenceClaimIds": [
+        "claim-1"
+      ]
+    },
+    {
+      "id": "sim",
+      "type": "simulator",
+      "title": "Tune the loop",
+      "learningPurpose": "Manipulate causal inputs.",
+      "variables": [
+        {
+          "name": "feedback",
+          "relationship": "More direct feedback improves correction."
+        },
+        {
+          "name": "delay",
+          "relationship": "Longer delay increases drift."
+        }
+      ],
+      "expectedObservation": "Loop health changes with the inputs.",
+      "evidenceClaimIds": [
+        "claim-1",
+        "claim-2"
+      ]
+    }
+  ]
+}
