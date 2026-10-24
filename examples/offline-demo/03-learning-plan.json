@@ -1,0 +1,82 @@
+{
+  "mentalModel": "A reliable harness closes the loop between intent, action, observation, and correction.",
+  "learnerJourney": "Inspect, manipulate, retrieve, and transfer the model.",
+  "misconceptions": [
+    {
+      "belief": "A prompt is enough.",
+      "correction": "Execution and feedback close the loop.",
+      "diagnosticQuestion": "What makes a result observable?"
+    }
+  ],
+  "sections": [
+    {
+      "id": "model",
+      "title": "Start with the loop, not the model",
+      "objective": "Distinguish an open-loop prompt from a closed-loop harness",
+      "claimIds": [
+        "claim-1"
+      ],
+      "blockTypes": [
+        "prose",
+        "system-map",
+        "comparison"
+      ]
+    },
+    {
+      "id": "anatomy",
+      "title": "Reliability is a property of the whole loop",
+      "objective": "Name the five subsystems that make an agent reliable",
+      "claimIds": [
+        "claim-2"
+      ],
+      "blockTypes": [
+        "simulator",
+        "prose",
+        "quiz"
+      ]
+    },
+    {
+      "id": "evidence",
+      "title": "Measure the loop by removing parts",
+      "objective": "Diagnose which missing feedback is causing a run to drift",
+      "claimIds": [
+        "claim-1"
+      ],
+      "blockTypes": [
+        "evidence",
+        "prose",
+        "takeaway"
+      ]
+    },
+    {
+      "id": "apply",
+      "title": "Turn your repository into the controller",
+      "objective": "Distinguish an open-loop prompt from a closed-loop harness",
+      "claimIds": [
+        "claim-2"
+      ],
+      "blockTypes": [
+        "exercise",
+        "quiz",
+        "takeaway"
+      ]
+    }
+  ],
+  "assessmentPlan": [
+    {
+      "objective": "Distinguish an open-loop prompt from a closed-loop harness",
+      "evidence": "A scored response or completed transfer exercise.",
+      "timing": "during"
+    },
+    {
+      "objective": "Name the five subsystems that make an agent reliable",
+      "evidence": "A scored response or completed transfer exercise.",
+      "timing": "during"
+    },
+    {
+      "objective": "Diagnose which missing feedback is causing a run to drift",
+      "evidence": "A scored response or completed transfer exercise.",
+      "timing": "during"
+    }
+  ]
+}

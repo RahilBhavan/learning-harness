@@ -1,0 +1,295 @@
+{
+  "title": "A harness is a control system, not a prompt file",
+  "kicker": "Mental model 01",
+  "summary": "The model supplies capability. The harness turns that capability into reliable work by making intent, action, observation, and correction part of one visible loop.",
+  "duration": "14 min",
+  "level": "Foundation · interactive",
+  "objectives": [
+    "Distinguish an open-loop prompt from a closed-loop harness",
+    "Name the five subsystems that make an agent reliable",
+    "Diagnose which missing feedback is causing a run to drift"
+  ],
+  "sections": [
+    {
+      "id": "model",
+      "nav": "See the system",
+      "number": "01",
+      "title": "Start with the loop, not the model",
+      "lead": "A capable agent can still fail when it cannot see the goal, act in the real environment, judge the result, or recover from a miss.",
+      "blocks": [
+        {
+          "type": "prose",
+          "eyebrow": "The core distinction",
+          "title": "Prompts point. Harnesses steer.",
+          "body": [
+            "A prompt is an initial condition: it tells a model what someone wants. A harness is the surrounding system that keeps the work aligned after the first response—when dependencies fail, tests expose an edge case, context gets long, or the agent discovers that its first plan was wrong.",
+            "This is the same distinction engineers make between an open-loop command and a closed-loop controller. Reliability appears when the system can observe the gap between intended and actual results, then feed that information into the next action."
+          ]
+        },
+        {
+          "type": "system-map",
+          "title": "The minimum reliable loop",
+          "caption": "The loop is only closed when observed results can change the next action. Select each stage to inspect its job.",
+          "nodes": [
+            {
+              "id": "intent",
+              "label": "Intent",
+              "detail": "A bounded outcome, constraints, and a definition of done give the run a stable target.",
+              "tone": "green"
+            },
+            {
+              "id": "agent",
+              "label": "Agent",
+              "detail": "The model interprets the state, chooses the next useful action, and revises its plan as evidence arrives.",
+              "tone": "blue"
+            },
+            {
+              "id": "environment",
+              "label": "Environment",
+              "detail": "Files, tools, services, and dependencies turn a plausible answer into work performed against reality.",
+              "tone": "purple"
+            },
+            {
+              "id": "feedback",
+              "label": "Feedback",
+              "detail": "Tests, logs, diffs, and human gates expose the distance between the result and the target.",
+              "tone": "orange"
+            },
+            {
+              "id": "recovery",
+              "label": "Recovery",
+              "detail": "Durable state and explicit retry paths let the next action correct the miss instead of repeating it.",
+              "tone": "teal"
+            }
+          ]
+        },
+        {
+          "type": "comparison",
+          "title": "Same model. Different surrounding system.",
+          "left": {
+            "label": "Prompt-only run",
+            "score": 34,
+            "points": [
+              "Success depends on the first interpretation",
+              "Failures arrive as prose or stay invisible",
+              "A new session reconstructs state from scratch"
+            ]
+          },
+          "right": {
+            "label": "Closed-loop run",
+            "score": 86,
+            "points": [
+              "The definition of done is executable",
+              "Failures become specific next actions",
+              "State survives context and session boundaries"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "anatomy",
+      "nav": "Tune the loop",
+      "number": "02",
+      "title": "Reliability is a property of the whole loop",
+      "lead": "No single prompt trick fixes a system that cannot execute, observe, or remember. Use the simulator to feel how the parts interact.",
+      "blocks": [
+        {
+          "type": "simulator",
+          "title": "Tune a harness before it drifts",
+          "prompt": "Move the controls. Notice that strong instructions cannot fully compensate for slow feedback or weak recovery.",
+          "controls": [
+            {
+              "id": "clarity",
+              "label": "Objective clarity",
+              "help": "How precisely the target and boundaries are expressed",
+              "min": 0,
+              "max": 10,
+              "initial": 6
+            },
+            {
+              "id": "verification",
+              "label": "Verification strength",
+              "help": "How directly the system can test the claimed result",
+              "min": 0,
+              "max": 10,
+              "initial": 4
+            },
+            {
+              "id": "delay",
+              "label": "Feedback delay",
+              "help": "How long the agent works before learning it is off course",
+              "min": 0,
+              "max": 10,
+              "initial": 7,
+              "inverse": true
+            },
+            {
+              "id": "recovery",
+              "label": "Recovery context",
+              "help": "How much useful state survives a failed attempt",
+              "min": 0,
+              "max": 10,
+              "initial": 3
+            }
+          ]
+        },
+        {
+          "type": "prose",
+          "eyebrow": "Five subsystems",
+          "title": "A practical anatomy",
+          "body": [
+            "Instructions define intent and invariants. Tools give the agent legitimate ways to act. The environment makes those actions reproducible. State preserves decisions and progress. Feedback judges the result. The names matter less than the coverage: each is a different failure surface.",
+            "The fastest diagnosis is therefore not “which model should we use?” but “where did the loop lose signal?” If the agent chose the wrong package manager, environment context was missing. If it praised broken work, feedback was weak. If it repeated the same investigation tomorrow, state was weak."
+          ]
+        },
+        {
+          "type": "quiz",
+          "title": "Find the missing subsystem",
+          "question": "An agent makes a clean change, reports success, and stops. In production the flow fails because it never ran the browser-level test documented only in a team wiki. What should you strengthen first?",
+          "options": [
+            {
+              "label": "A longer system prompt",
+              "correct": false,
+              "feedback": "More prose does not make the result observable. Put the required check where the agent can execute it."
+            },
+            {
+              "label": "Feedback and repository instructions",
+              "correct": true,
+              "feedback": "Make the browser test an explicit, executable completion gate in the repository."
+            },
+            {
+              "label": "A larger context window",
+              "correct": false,
+              "feedback": "The information was outside the run entirely; more capacity would not surface it."
+            },
+            {
+              "label": "More autonomous retries",
+              "correct": false,
+              "feedback": "Retries without a better signal repeat the same blind spot."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evidence",
+      "nav": "Read the signal",
+      "number": "03",
+      "title": "Measure the loop by removing parts",
+      "lead": "A harness should earn its complexity. Controlled ablation—removing one support at a time—shows which subsystem is carrying real value for the current task.",
+      "blocks": [
+        {
+          "type": "evidence",
+          "title": "Capability held constant; harness changed",
+          "rows": [
+            {
+              "stage": "Bare repository",
+              "rate": 20,
+              "change": "README only"
+            },
+            {
+              "stage": "Explicit project rules",
+              "rate": 60,
+              "change": "+ instructions"
+            },
+            {
+              "stage": "Executable completion gates",
+              "rate": 80,
+              "change": "+ feedback"
+            },
+            {
+              "stage": "Durable progress state",
+              "rate": 96,
+              "change": "+ continuity"
+            }
+          ],
+          "note": "Illustrative teaching case synthesized from the referenced harness-engineering course. Treat the rates as a pattern to reproduce in your own evaluations, not as universal benchmark results."
+        },
+        {
+          "type": "prose",
+          "eyebrow": "Do not overclaim",
+          "title": "Ablation ranks value; it does not explain every failure",
+          "body": [
+            "If removing tests causes the largest drop, feedback has the highest measured contribution in this task. That does not prove feedback is the only bottleneck. Pair the ablation with failure attribution: unclear intent, insufficient context, broken environment, missing observation, or lost state.",
+            "This distinction keeps evaluation honest. A good educational harness should mark the boundary between evidence, inference, and illustration instead of blending all three into confident prose."
+          ]
+        },
+        {
+          "type": "takeaway",
+          "title": "The diagnostic in four moves",
+          "items": [
+            "Hold the task and model constant",
+            "Remove one harness component",
+            "Measure outcome and failure mode",
+            "Strengthen the weakest signal path"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apply",
+      "nav": "Apply it",
+      "number": "04",
+      "title": "Turn your repository into the controller",
+      "lead": "The best next step is not a grand framework. It is one short, executable loop around a task your agent already performs badly.",
+      "blocks": [
+        {
+          "type": "exercise",
+          "title": "Run a 20-minute loop audit",
+          "prompt": "Choose one recent agent failure. Map what the system knew, could do, could observe, and could carry forward. Then make one missing signal executable.",
+          "steps": [
+            "Write the intended outcome and the exact observed miss.",
+            "Classify the missing signal: instructions, tools, environment, state, or feedback.",
+            "Add the smallest repository artifact that closes that gap.",
+            "Repeat the same task and record whether the failure mode changed."
+          ]
+        },
+        {
+          "type": "quiz",
+          "title": "Transfer the model",
+          "question": "Which change most directly turns “please make sure it works” into a closed-loop completion gate?",
+          "options": [
+            {
+              "label": "Add “be thorough” to AGENTS.md",
+              "correct": false,
+              "feedback": "That changes tone, not observability."
+            },
+            {
+              "label": "Require the agent to explain confidence",
+              "correct": false,
+              "feedback": "Self-reporting is weaker than checking the real result."
+            },
+            {
+              "label": "Document and run the exact test command",
+              "correct": true,
+              "feedback": "An executable check turns a claim into feedback the next action can use."
+            },
+            {
+              "label": "Let the agent use more tokens",
+              "correct": false,
+              "feedback": "More reasoning cannot substitute for a missing result signal."
+            }
+          ]
+        },
+        {
+          "type": "takeaway",
+          "title": "One sentence to keep",
+          "items": [
+            "The model proposes the next move; the harness makes reality answer back."
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "label": "OpenAI · Harness engineering in an agent-first world",
+      "url": "https://openai.com/index/harness-engineering/"
+    },
+    {
+      "label": "Anthropic · Effective harnesses for long-running agents",
+      "url": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents"
+    }
+  ]
+}

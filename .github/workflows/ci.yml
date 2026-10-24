@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      # Ignore a system libvips so sharp (pulled in by miniflare) uses its bundled binary.
+      SHARP_IGNORE_GLOBAL_LIBVIPS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - name: Tests (content validation, harness, research, benchmark, build, rendered HTML)
+        run: npm test
+      - name: Offline demo is current
+        run: |
+          npm run demo:offline
+          git diff --exit-code -- examples/offline-demo
