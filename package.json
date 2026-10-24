@@ -33,11 +33,9 @@
     "research:package": "node scripts/research.mjs package",
     "demo:offline": "node scripts/offline-demo.mjs",
     "validate:content": "node scripts/validate-content.mjs",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
-    "db:generate": "drizzle-kit generate"
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next"
   },
   "dependencies": {
-    "drizzle-orm": "0.45.2",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },
@@ -51,7 +49,6 @@
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.2",
     "@vitejs/plugin-rsc": "0.5.38",
-    "drizzle-kit": "0.31.10",
     "eslint": "9.39.4",
     "eslint-plugin-jsx-a11y": "6.10.2",
     "eslint-plugin-react": "7.37.5",
