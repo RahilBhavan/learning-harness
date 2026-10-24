@@ -93,6 +93,6 @@ node bin/learn.mjs status examples/offline-demo
 
 ## License
 
-No license file yet. `package.json` marks the package `UNLICENSED`.
+MIT. See [LICENSE](LICENSE).
 
 Part of [Rahil Bhavan's projects](https://github.com/RahilBhavan).
