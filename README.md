@@ -24,7 +24,7 @@ Learning Harness takes a lesson brief and a set of trusted sources. It calls an 
 
 ## Run it
 
-Prerequisites: Node 22 (`.nvmrc`; `package.json` requires 22.13 or later) and npm 10.
+Prerequisites: Node 22 (`.nvmrc`; `package.json` requires 22.15 or later) and npm 10.
 
 ```bash
 nvm use            # or any Node 22 install
@@ -93,8 +93,8 @@ node bin/learn.mjs status examples/offline-demo
 - The claim ledger records which source IDs a claim cites. It does not verify that the source text supports the claim, and it has no quote locators.
 - Sources are curated by the brief. The tool does not search the web, and it rejects PDFs and other binary sources unless the brief supplies an excerpt.
 - Approval is a local hash check, not an access-control system.
-- `npm audit` reports 6 advisories (3 high: `image-size`, `undici` through build and dev tooling). Fixing them needs `vinext` 1.3.0, which breaks the Node-based rendered-HTML tests, so `vinext` stays at 1.0.0-beta.2.
-- `npx tsc --noEmit` reports two type errors (a JSON-widening mismatch in `app/page.tsx` and missing Workers types in `worker/index.ts`). Type checking is not part of CI.
+- `npm audit` reports 4 moderate advisories and no high ones (observed 2026-10-25). `vinext` is 1.3.0. `undici` is pinned to 7.30.1 through an npm `overrides` entry because the current `miniflare` pins 7.28.0, which has the high advisories; remove the override once `miniflare` ships a fixed `undici`. The four remaining moderate advisories are one chain (`fflate`, `satori`, `@vercel/og`, `vinext`); `fflate` has no fixed release in that chain.
+- `npm run typecheck` (`tsc --noEmit`) passes and runs in CI. The rendered-HTML tests preload `tests/support/cloudflare-stub.mjs` because the built Worker imports `cloudflare:workers`, which Node cannot load; the stub is empty, so the tests do not exercise Workers-only behaviour.
 
 ## License
 
