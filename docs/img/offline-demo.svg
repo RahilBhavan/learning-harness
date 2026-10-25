@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="654" viewBox="0 0 920 654" role="img" aria-labelledby="t">
+<title id="t">learn status and learn review on the offline demo run: seven stages complete, automated gate passes, human review still pending</title>
+<rect width="920" height="654" rx="10" fill="#111214"/>
+<rect width="920" height="44" rx="10" fill="#202124"/><rect y="28" width="920" height="16" fill="#202124"/>
+<text x="24" y="28" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#F5F5EF">learning-harness, offline demo run</text>
+<text x="24" y="70" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#FFE500">$ npm run demo:offline &amp;&amp; learn status examples/offline-demo</text>
+<text x="24" y="94" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#F5F5EF">How feedback loops make AI coding agents reliable</text>
+<text x="24" y="118" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#FFB5B5">awaiting-human-review · test/contract-test</text>
+<text x="24" y="142" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#B8E3BF">  complete      Brief validated</text>
+<text x="24" y="166" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#B8E3BF">  complete      Sources captured</text>
+<text x="24" y="190" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#B8E3BF">  complete      Claims grounded</text>
+<text x="24" y="214" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#B8E3BF">  complete      Learning plan designed</text>
+<text x="24" y="238" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#B8E3BF">  complete      Interactions specified</text>
+<text x="24" y="262" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#B8E3BF">  complete      Lesson authored</text>
+<text x="24" y="286" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#B8E3BF">  complete      Quality gates evaluated</text>
+<text x="24" y="310" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#FFB5B5">  pending-human review</text>
+<text x="24" y="334" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#F5F5EF"></text>
+<text x="24" y="358" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#FFE500">$ learn review examples/offline-demo</text>
+<text x="24" y="382" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#F5F5EF">How feedback loops make AI coding agents reliable</text>
+<text x="24" y="406" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#B8E3BF">Automated gate: PASS</text>
+<text x="24" y="430" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#B8E3BF">  factualGrounding         5/5</text>
+<text x="24" y="454" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#B8E3BF">  objectiveAlignment       5/5</text>
+<text x="24" y="478" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#B8E3BF">  interactionIntegrity     5/5</text>
+<text x="24" y="502" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#B8E3BF">  misconceptionQuality     4/5</text>
+<text x="24" y="526" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#B8E3BF">  transferQuality          5/5</text>
+<text x="24" y="550" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#F5F5EF">Issues: 0</text>
+<text x="24" y="574" xml:space="preserve" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="14" fill="#FFB5B5">Approval:        required</text>
+<text x="24" y="634" font-family="ui-monospace, 'DejaVu Sans Mono', 'Liberation Mono', Menlo, Consolas, monospace" font-size="12.5" fill="#B7B8B1">Scripted stand-in for the model: this shows the artifact stages and gates, not lesson quality.</text>
+</svg>
