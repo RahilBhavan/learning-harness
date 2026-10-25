@@ -2,6 +2,11 @@
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
 
+// Minimal local type: the project does not depend on @cloudflare/workers-types.
+interface Fetcher {
+  fetch(input: Request | string | URL, init?: RequestInit): Promise<Response>;
+}
+
 interface Env {
   ASSETS: Fetcher;
   IMAGES: {

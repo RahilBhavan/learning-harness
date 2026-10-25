@@ -40,3 +40,4 @@ yarn-error.log*
 /work/
 /runs/
 /research/
+tsconfig.tsbuildinfo

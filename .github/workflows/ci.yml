@@ -19,6 +19,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      - run: npm run typecheck
       - name: Tests (content validation, harness, research, benchmark, build, rendered HTML)
         run: npm test
       - name: Offline demo is current
